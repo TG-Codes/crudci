@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Register</title>
-</head>
+
+<?php 
+include('header.php');
+?>
 <body class="bg-dark">
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a href="" class="navbar-brand mt-auto"><span class="text-danger big">M</span><span class="lit">Nerds</span></a>
-            <a href="login.html" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-primary">Login</button></a>
+            <a href="login" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-primary">Login</button></a>
         </nav>
         </div>
     <center>
