@@ -6,7 +6,7 @@ include('header.php');
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a href="" class="navbar-brand mt-auto"><span class="text-danger big">M</span><span class="lit">Nerds</span></a>
-            <a href="signup.html" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-success">create new account</button></a>
+            <a href="index" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-success">create new account</button></a>
         </nav>
         </div>
     <center>
@@ -15,13 +15,14 @@ include('header.php');
         <h1 class="text-left text-primary text-center">Login</h1>
     </div>
     <div class="card-body">
-		<form method="POST" action="Welcome/login">
-        <input type="text" class="form-control mb-2" placeholder="Email or Phone No.">
-        <input type="password" class="form-control mb-2" placeholder="Password">
-        <a href="#"><button class="btn btn-outline-primary btn-lg space" type="submit">Login</button></a>
+		<form method="POST" id="loginform" action="Welcome/login">
+        <input type="text" id="email" name="email" class="form-control mb-2" placeholder="Email or Phone No.">
+        <input type="password" id="password" name="password" class="form-control mb-2" placeholder="Password">
+        <a href="#"><button class="btn btn-outline-primary btn-lg space" id="submit" type="submit">Login</button></a>
         <div>
             <a href="#" class="">Forgotten Password?</a>
         </div>
+		<div id="error"></div>
 		</form>
     </div>
     </div>
@@ -31,12 +32,12 @@ include('header.php');
 <script>
 $(document).ready(function() {
 
-$("#reg").on("submit", function(event) {
+$("#loginform").on("submit", function(event) {
 	event.preventDefault();
 
 
-	var fname =  $("#fname").val();
-	var lname = $("#lname").val();
+	var email =  $("#email").val();
+	var password = $("#password").val();
 	var form = $(this);
 
 		$.ajax({
@@ -50,7 +51,7 @@ $("#reg").on("submit", function(event) {
 			},
 			success: function(response) {
 				if (response.error == false) {
-					 document.getElementById("reg").reset();
+					 document.getElementById("loginform").reset();
 				   $("#error").fadeIn(1000, function() {
 						$("#error").html('<div class="alert alert-success"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; ' + response.message + ' !</div>');
 						$("#submit").html('Submit');

@@ -82,6 +82,36 @@ class Welcome extends CI_Controller {
 
 	}
 
+	public function login(){
+		// fetch the html entities from the views 
+		$data['email'] = $this->input->post('email');
+		$data['password'] = $this->input->post('password');
+
+
+		// check if user exist in the data base 
+		$query = $this->Home_model->ValidateEntry($data);
+
+		// if it works create a session else bounce the nigger back
+		if($query == true){
+			// create the session here 
+			$session_data = array(
+				'email' => $data['email']
+				);
+			// add user data to  session
+			$this->session->set_userdata('logged_in', $session_data);
+			$response['error'] = false;
+			$response['message'] = 'user logged in';
+
+
+		}
+		else{
+			$response['error']= true;
+			$response['message'] = 'No User found in the database';
+		}
+
+		echo json_encode($response);
+	}
+
 
 
 
