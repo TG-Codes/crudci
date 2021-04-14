@@ -171,7 +171,6 @@ include('header.php');
     <script src="assets/fm.js"></script>
 <script type="text/javascript">
     
-// login
 $(document).ready(function() {
 
     $("#reg").on("submit", function(event) {
