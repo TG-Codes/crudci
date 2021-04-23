@@ -53,9 +53,9 @@ $("#loginform").on("submit", function(event) {
 				if (response.error == false) {
 					 document.getElementById("loginform").reset();
 				   $("#error").fadeIn(1000, function() {
-						$("#error").html('<div class="alert alert-success"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; ' + response.message + ' !</div>');
-						$("#submit").html('Submit');
+						$("#submit").html('Redirecting....');
 					});
+					setTimeout(' window.location.href = "profile"; ',4000);
 				} else {
 					$("#error").fadeIn(1000, function() {
 						$("#error").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; ' + response.message + ' !</div>');

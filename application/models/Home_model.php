@@ -46,6 +46,22 @@ class Home_model extends CI_Model {
 		}
 
 
+		// this model will fetch all the user's details upon login 
+		public function FetchUserData($data){
+			$condition = "email =" . "'" . $data['email'] . "' AND " . "pass =" . "'" . $data['password'] . "'";
+			$this->db->select('*');
+      $this->db->from('users');
+      $this->db->where($condition);
+      $this->db->limit(1);
+      $query = $this->db->get();
+      
+      if ($query->num_rows() > 0) {
+      return $query->result();
+      } else {
+      return false;
+      }
+		}
+
 
 
 

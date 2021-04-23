@@ -93,9 +93,25 @@ class Welcome extends CI_Controller {
 
 		// if it works create a session else bounce the nigger back
 		if($query == true){
-			// create the session here 
+
+			// fetch all the user data fro mthe databse 
+			$fetchdata = $this->Home_model->FetchUserData($data);
+			
+			// echo json_encode($fetchdata);
+			//create the session here 
 			$session_data = array(
-				'email' => $data['email']
+				'email' => $fetchdata[0]->email, 
+				'fname' => $fetchdata[0]->fname, 
+				'lname' => $fetchdata[0]->lname, 
+				'otherName' => $fetchdata[0]->otherName, 
+				'day' => $fetchdata[0]->day,
+				'month' => $fetchdata[0]->month, 
+				'year' => $fetchdata[0]->year, 
+				'gender' => $fetchdata[0]->gender,
+				'address' => $fetchdata[0]->address, 
+				'country' => $fetchdata[0]->country, 
+				'phoneNo' => $fetchdata[0]->phoneNo
+
 				);
 			// add user data to  session
 			$this->session->set_userdata('logged_in', $session_data);
@@ -112,6 +128,15 @@ class Welcome extends CI_Controller {
 		echo json_encode($response);
 	}
 
+
+	public function LogOut(){
+		// Removing session data
+		$sess_array = array(
+			'username' => ''
+			);
+			$this->session->unset_userdata('logged_in', $sess_array);
+			header('location:'.base_url('login'));
+	}
 
 
 
