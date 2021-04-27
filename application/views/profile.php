@@ -29,8 +29,14 @@ include('header.php');
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a href="" class="navbar-brand mt-auto"><span class="text-danger big">M</span><span class="lit">Nerds</span></a>
-            <a href="login" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-primary">Login</button></a>
-        </nav>
+			<?php 
+			if(isset($this->session->userdata['logged_in'])){
+			echo 	'<a href="Welcome/LogOut" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-primary">LogOut</button></a>';
+
+			}
+
+			?>
+	        </nav>
         </div>
     <center>
     <div class="card col-lg-5 mt-1">

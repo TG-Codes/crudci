@@ -1,5 +1,8 @@
 <?php
-
+if(isset($this->session->userdata['logged_in'])){
+	// redirect to profile 
+	header("location: profile");
+}
 include('header.php');
 ?>
 <body class="bg-dark">
@@ -51,7 +54,7 @@ $("#loginform").on("submit", function(event) {
 			},
 			success: function(response) {
 				if (response.error == false) {
-					 document.getElementById("loginform").reset();
+					document.getElementById("loginform").reset();
 				   $("#error").fadeIn(1000, function() {
 						$("#submit").html('Redirecting....');
 					});
