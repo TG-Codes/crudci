@@ -138,6 +138,47 @@ class Welcome extends CI_Controller {
 			header('location:'.base_url('login'));
 	}
 
+	public function Update(){
+		if(isset($this->session->userdata['logged_in'])){
+			// update the user data
+			// first we set the html entities 
+			$data['fname'] = $this->input->post('fname');
+			$data['lname'] = $this->input->post('lname');
+			$data['otherName'] = $this->input->post('otherName');
+			$data['day'] = $this->input->post('day');
+			$data['month'] = $this->input->post('month');
+			$data['year'] = $this->input->post('year');
+			$data['gender'] = $this->input->post('gender');
+			$data['address'] = $this->input->post('address');
+			$data['country'] = $this->input->post('country');
+			$data['phoneNo'] = $this->input->post('phoneNo');
+			$data['email'] = $this->input->post('Email');
+
+			// create a model the handles the updat to the databse 
+			$query = $this->Home_model->Update($data);
+
+			if ($query == false) {
+				$response['error'] = false;
+				$response['message'] = 'User details updates successfully';
+			}
+			else {
+				$response['error'] = true;
+				$response['message'] = 'Error inupdating user data';
+			}
+			
+			echo json_encode($response);
+
+		}
+		else{
+			// redirect the user to logged in 
+			redirect(base_url('login'));
+		}
+	}
+
+	public function PasswordUpdate(){
+
+	}
+
 
 
 

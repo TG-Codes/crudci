@@ -44,7 +44,7 @@ include('header.php');
         <h1 class="text-success">Profile Page</h1>
         <p><strong>It's quick and easy</strong></p>
     </div>
-    <form id="reg" class="card-body" action="Welcome/register" method="post">
+    <form id="update" class="card-body" action="Welcome/Update" method="post">
         <h6 class="text-left mb-1 mt-2"><strong>Name</strong></h6>
         <div>
             <p id="fName"></p>
@@ -186,10 +186,92 @@ include('header.php');
             <p id="email"></p>
             <input type="text" placeholder="Email" value="<?php echo($email); ?>" class="form-control" id="Email" name="Email" onkeyup="emailCheck()">
         </div>
+		<div id="error"></div>
         <button id="submit" class="btn btn-lg form-control space btn-outline-success mt-2" type="submit">Submit</button>
     </form>
     </div>
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">New message</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<form>
+			<div class="form-group">
+				<label for="recipient-name" class="col-form-label">Recipient:</label>
+				<input type="text" class="form-control" id="recipient-name">
+			</div>
+			<div class="form-group">
+				<label for="message-text" class="col-form-label">Message:</label>
+				<textarea class="form-control" id="message-text"></textarea>
+			</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary">Send message</button>
+		</div>
+		</div>
+	</div>
+	</div>
     </center>
     <script src="assets/fm.js"></script>
 </body>
+<script type="text/javascript">
+    
+$(document).ready(function() {
+
+    $("#update").on("submit", function(event) {
+        event.preventDefault();
+
+
+        var fname =  $("#fname").val();
+        var lname = $("#lname").val();
+        var otherName =  $("#otherName").val();
+        var day = $("#day").val();
+        var month =  $("#month").val();
+        var year = $("#year").val();
+        var month =  $("#month").val();
+        var year = $("#year").val();
+        var gender =  $("#gender").val();
+        var country = $("#country").val();
+        var phoneNo = $("#phoneNo").val();
+        var Email = $("#Email").val();
+        var form = $(this);
+
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
+                beforeSend: function() {
+                    $("#error").fadeOut();
+                    $("#submit").html('PLEASE WAIT.......');
+                },
+                success: function(response) {
+                    if (response.error == false) {
+                       $("#error").fadeIn(1000, function() {
+                            $("#error").html('<div class="alert alert-success"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; ' + response.message + ' !</div>');
+                            $("#submit").html('Submit');
+                        });
+                    } else {
+                        $("#error").fadeIn(1000, function() {
+                            $("#error").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; ' + response.message + ' !</div>');
+                            $("#submit").html('Submit');
+                        });
+                    }
+                }
+
+            });
+            
+
+    });
+});
+
+
+</script>
 </html>

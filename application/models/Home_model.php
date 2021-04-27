@@ -62,6 +62,12 @@ class Home_model extends CI_Model {
       }
 		}
 
+		public function Update($data){
+			$this->db->where('email', $data['email']);
+	   $this->db->update('users', $data);
+
+		}
+
 
 
 
