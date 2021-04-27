@@ -32,7 +32,11 @@ include('header.php');
 			<?php 
 			if(isset($this->session->userdata['logged_in'])){
 			echo 	'<a href="Welcome/LogOut" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-primary">LogOut</button></a>';
-
+			echo '<!-- Button trigger modal -->
+			<button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#PasswordModal">
+			  Change Password
+			</button>
+			';
 			}
 
 			?>
@@ -190,34 +194,43 @@ include('header.php');
         <button id="submit" class="btn btn-lg form-control space btn-outline-success mt-2" type="submit">Submit</button>
     </form>
     </div>
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-		<div class="modal-header">
-			<h5 class="modal-title" id="exampleModalLabel">New message</h5>
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<div class="modal-body">
-			<form>
-			<div class="form-group">
-				<label for="recipient-name" class="col-form-label">Recipient:</label>
-				<input type="text" class="form-control" id="recipient-name">
-			</div>
-			<div class="form-group">
-				<label for="message-text" class="col-form-label">Message:</label>
-				<textarea class="form-control" id="message-text"></textarea>
-			</div>
-			</form>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Send message</button>
-		</div>
-		</div>
-	</div>
-	</div>
+<!-- Modal -->
+<div class="modal fade" id="PasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form method="post" id="Passwordform" action="Welcome/PasswordUpdate">
+	   <div>
+	   <div>
+            <p class="" id="phone">Old Password</p>
+            <input type="password" placeholder="New Password" id="opass" value="" name="opass" class="form-control" >
+        </div>
+	   </div>
+	   <div>
+            <p class="" id="phone">New Password</p>
+            <input type="password" placeholder="New Password" id="pass" value="" name="pass" class="form-control" >
+        </div>
+        <div>
+            <p id="">Confirm Password</p>
+            <input type="password" placeholder="Confirm Pass" value="" class="form-control" id="cpass" name="cpass" >
+        </div>
+	   
+      </div>
+	  <div id="StatusPassword"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" id="submitpassword" class="btn btn-primary">Save changes</button>
+      </div>
+	  </form>
+    </div>
+  </div>
+</div>
     </center>
     <script src="assets/fm.js"></script>
 </body>
@@ -270,6 +283,62 @@ $(document).ready(function() {
             
 
     });
+});
+
+// this handles the password confirmation
+	$(document).ready(function(){
+		$("#cpass").keyup(function(){
+				if ($("#cpass").val() != $("#pass").val()) {
+					$("#StatusPassword").html("Password do not match").css("color","red");
+					$("#submitpassword").prop('disabled',true);
+				}else{
+					$("#StatusPassword").html("Password matched").css("color","green");
+					$("#submitpassword").prop('disabled',false);
+			}
+		});
+});
+
+// this handles passing data to the controller
+
+</script>
+<script>
+$(document).ready(function() {
+
+$("#Passwordform").on("submit", function(event) {
+	event.preventDefault();
+
+
+	var opass =  $("#opass").val();
+	var pass = $("#pass").val();
+	var form = $(this);
+
+		$.ajax({
+			type: form.attr('method'),
+			url: form.attr('action'),
+			data: form.serialize(),
+			dataType: 'json',
+			beforeSend: function() {
+				$("#StatusPassword").fadeOut();
+				$("#submitpassword").html('PLEASE WAIT.......');
+			},
+			success: function(response) {
+				if (response.error == false) {
+				   $("#StatusPassword").fadeIn(1000, function() {
+						$("#StatusPassword").html('<div class="alert alert-success"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; ' + response.message + ' !</div>');
+						$("#submitpassword").html('Save changes');
+					});
+				} else {
+					$("#StatusPassword").fadeIn(1000, function() {
+						$("#StatusPassword").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; ' + response.message + ' !</div>');
+						$("#submitpassword").html('Save changes');
+					});
+				}
+			}
+
+		});
+		
+
+});
 });
 
 

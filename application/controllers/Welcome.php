@@ -176,6 +176,45 @@ class Welcome extends CI_Controller {
 	}
 
 	public function PasswordUpdate(){
+        if (isset($this->session->userdata['logged_in'])) {
+            $data['email'] = ($this->session->userdata['logged_in']['email']);
+            // chrch if the password on the db matches the one that is coming
+            // fecth the old password from the user end
+            $data['opass'] = $this->input->post('opass');
+
+            // fect th enew password from the user end
+            $data['pass'] =  $this->input->post('pass');
+
+            // fetch the password in the database
+            $query = $this->Home_model->FetchUserDataa($data);
+		
+			// fecth database email 
+			$dbpass = $query[0]->pass;
+
+			if($dbpass == $data['opass']){
+				// you can modify with the new passsword 
+				$query1 = $this->Home_model->UpdatePassword($data);
+
+				if($query1 == false){
+					$response['error'] = false;
+					$response['message'] = 'Passwor update successfully';
+				}
+				else{
+					$response['error'] = true;
+				  $response['message'] = 'Error Updating password';
+				}
+
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'Password is incorrect';
+			}
+			echo json_encode($response);
+        }
+		else{
+			// redirect the user to logged in 
+			redirect(base_url('login'));
+		}
 
 	}
 

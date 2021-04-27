@@ -68,8 +68,27 @@ class Home_model extends CI_Model {
 
 		}
 
+		public function FetchUserDataa($data){
+      $condition = "email =" . "'" . $data['email'] . "'";
+			$this->db->select('*');
+      $this->db->from('users');
+      $this->db->where($condition);
+      $this->db->limit(1);
+      $query = $this->db->get();
+      
+      if ($query->num_rows() > 0) {
+      return $query->result();
+      } else {
+      return false;
+      }
+		}
 
 
+		public function UpdatePassword($data){
+			$this->db->set('pass', $data['pass']);
+			$this->db->where('email', $data['email']);
+			$this->db->update('users');
+		}
 
 
 
