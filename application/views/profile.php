@@ -31,9 +31,9 @@ include('header.php');
             <a href="" class="navbar-brand mt-auto"><span class="text-danger big">M</span><span class="lit">Nerds</span></a>
 			<?php 
 			if(isset($this->session->userdata['logged_in'])){
-			echo 	'<a href="Welcome/LogOut" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-primary">LogOut</button></a>';
+			echo 	'<a href="Welcome/LogOut" class="ml-auto nav-item"><button class="btn btn-sm btn-outline-primary ms-1">LogOut</button></a>';
 			echo '<!-- Button trigger modal -->
-			<button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#PasswordModal">
+			<button type="button" class="btn btn-sm btn-outline-primary ml-2" data-bs-toggle="modal" data-bs-target="#PasswordModal">
 			  Change Password
 			</button>
 			';
@@ -195,12 +195,12 @@ include('header.php');
     </form>
     </div>
 <!-- Modal -->
-<div class="modal fade" id="PasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="PasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -224,7 +224,7 @@ include('header.php');
       </div>
 	  <div id="StatusPassword"></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" id="submitpassword" class="btn btn-primary">Save changes</button>
       </div>
 	  </form>

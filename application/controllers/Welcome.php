@@ -13,7 +13,6 @@ class Welcome extends CI_Controller {
         $this->load->library('session');
         $this->load->helper('download');
         $this->load->library('form_validation');
-
     }
 
 	// This handles the pages
@@ -111,7 +110,6 @@ class Welcome extends CI_Controller {
 				'address' => $fetchdata[0]->address, 
 				'country' => $fetchdata[0]->country, 
 				'phoneNo' => $fetchdata[0]->phoneNo
-
 				);
 			// add user data to  session
 			$this->session->set_userdata('logged_in', $session_data);
