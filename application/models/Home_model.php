@@ -10,104 +10,12 @@ class Home_model extends CI_Model {
 
 
 
-    public function Verify($Ugochi){
-      $condition = "email =" . "'" . $Ugochi['email'] . "'";
-      $this->db->select('*');
-      $this->db->from('users');
-      $this->db->where($condition);
-      $this->db->limit(1);
-      $query = $this->db->get();
-      
-      if ($query->num_rows() > 0) {
-      return true;
-      } else {
-      return false;
-      }
-    }
-
-    public function insert($Ugochi){
-      return $this->db->insert('users', $Ugochi);
-    }
-
-
-		public function ValidateEntry($data){
-			$condition = "email =" . "'" . $data['email'] . "' AND " . "pass =" . "'" . $data['password'] . "'";
-			$this->db->select('*');
-      $this->db->from('users');
-      $this->db->where($condition);
-      $this->db->limit(1);
-      $query = $this->db->get();
-      
-      if ($query->num_rows() > 0) {
-      return true;
-      } else {
-      return false;
-      }
-		}
-
-
-		// this model will fetch all the user's details upon login 
-		public function FetchUserData($data){
-			$condition = "email =" . "'" . $data['email'] . "' AND " . "pass =" . "'" . $data['password'] . "'";
-			$this->db->select('*');
-      $this->db->from('users');
-      $this->db->where($condition);
-      $this->db->limit(1);
-      $query = $this->db->get();
-      
-      if ($query->num_rows() > 0) {
-      return $query->result();
-      } else {
-      return false;
-      }
-		}
-
-		public function Update($data){
-			$this->db->where('email', $data['email']);
-	   $this->db->update('users', $data);
-
-		}
-
-		public function FetchUserDataa($data){
-      $condition = "email =" . "'" . $data['email'] . "'";
-			$this->db->select('*');
-      $this->db->from('users');
-      $this->db->where($condition);
-      $this->db->limit(1);
-      $query = $this->db->get();
-      
-      if ($query->num_rows() > 0) {
-      return $query->result();
-      } else {
-      return false;
-      }
-		}
-
-
-		public function UpdatePassword($data){
-			$this->db->set('pass', $data['pass']);
-			$this->db->where('email', $data['email']);
-			$this->db->update('users');
-		}
-
-
-
-
-
-
-
-
-
-
-
-
-
      // login user
-    public function signin($user) {
+    public function Login($user) {
 
-      $condition = "matno =" . "'" . $user['matno'] . "' AND " . "password =" . "'" . $user['password'] . "'";
+      $condition = "username =" . "'" . $user['username'] . "' AND " . "password =" . "'" . $user['password'] . "'";
       $this->db->select('*');
-      $this->db->from('scholars');
+      $this->db->from('AdminLogin');
       $this->db->where($condition);
       $this->db->limit(1);
       $query = $this->db->get();
@@ -116,141 +24,244 @@ class Home_model extends CI_Model {
       return true;
       } else {
       return false;
-      }  
-
-    }
-
-    // fetch Scholar's  details
-    public function fetch_details($matno) {
-
-      $condition = "matno =" . "'" . $matno . "'";
-      $this->db->select('*');
-      $this->db->from('scholars');
-      $this->db->where($condition);
-      $this->db->limit(1);
-      $query = $this->db->get();
+      }
       
-      if ($query->num_rows() > 0) {
-      return $query->result();
-      } else {
-      return false;
-      }
-  }
 
-  // fect collleges and departments
-  public function fetch_dept($college) {
+	}
+	
+	// fetch  user details
+	public function fetch_details($username) {
 
-      $condition = "college =" . "'" . $college . "'";
-      $this->db->select('depts');
-      $this->db->from('depts');
-      $this->db->where($condition);
-      $query = $this->db->get();
-      $output = '<option value="">Select Department</option>';
-      foreach($query->result() as $row)
-      {
-       $output .= '<option value="'.$row->depts.'">'.$row->depts.'</option>';
-      }
-      return $output;
-
-
-  }
-
-  // Fetch Result 
-  public function CheckResult($data) {
-      $condition = "matno = " . "'" . $data['matno'] . "' AND " . "session =" . "'" . $data['session'] . "' AND " . "semester =" . "'" . $data['semester'] . "'";      
-      $this->db->select('*');
-      $this->db->from('result');
-      $this->db->where($condition);
-      $query = $this->db->get();
-      if ($query->num_rows() > 0) {
-      return $query->result();
-      } else {
-      return false;
-      }
-  }
-  
-  // fetch course outline
-  public function FetchOutline($data){
-		$condition = "college = " . "'" . $data['college'] . "' AND " . "department =" . "'" . $data['department'] . "' AND " . "level =" . "'" . $data['level'] . "' AND " . "semester =" . "'" . $data['semester'] . "'";      
-    $this->db->select('*');
-    $this->db->from('course_outline');
-    $this->db->where($condition);
-    $query = $this->db->get();
-    if ($query->num_rows() > 0) {
-    return $query->result();
-    } else {
-    return false;
-     }
+		$condition = "username =" . "'" . $username . "'";
+		$this->db->select('*');
+		$this->db->from('AdminLogin');
+		$this->db->where($condition);
+		$this->db->limit(1);
+		$query = $this->db->get();
+		
+		if ($query->num_rows() == 1) {
+		return $query->result();
+		} else {
+		return false;
+		}
 	}
 
-  /*
-  * for course registratation 
-  */
-
-  // fetch course outline
-  public function FetchCourses($data){
-    $condition = "college = " . "'" . $data['college'] . "' AND " . "department =" . "'" . $data['department'] . "' AND " . "level =" . "'" . $data['level'] . "' AND " . "semester =" . "'" . $data['semester'] . "'";      
-    $this->db->select('*');
-    $this->db->from('course_list');
-    $this->db->where($condition);
-    $query = $this->db->get();
-    if ($query->num_rows() > 0) {
-    return $query->result();
-    } else {
-    return false;
-     }
-  }
-	
-	// fetch lecture note
-
-     public function FetchLectureNotes($data) {
-         $condition = "college = " . "'" . $data['college'] . "' AND " . "department =" . "'" . $data['department'] . "' AND " . "level =" . "'" . $data['level'] . "' AND " . "semester =" . "'" . $data['semester'] . "'";      
-        $this->db->select('*');
-        $this->db->from('lecture_note');
-        $this->db->where($condition);
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-        return $query->result();
-        } else {
-        return false;
-         }
-     }	
-	
- 
-  // Verify Password
-   public function VerifyPass($data) {
-      $condition = "matno =" . "'" . $data['matno'] . "'";
-      $this->db->select('password');
-      $this->db->from('scholars');
-      $this->db->where($condition);
-      $query = $this->db->get();
-      return $query->result();
-   }
    
-  // update password after verification 
-   public function UpdateSchPass($data) {
-    $this->db->set('password', $data['newpassword']);
-    $this->db->where('matno', $data['matno']);
-    $this->db->update('scholars');
-
-   }
-
-   public function ProfilePhoto($data) {
-	$this->db->set('image', $data['image']);
-	$this->db->where('matno', $data['matno']);
-	$this->db->update('scholars');   
-   }
-
-   public function ProfileUpdate($data){
-	$this->db->where('matno', $data['matno']);
-	$this->db->update('scholars', $data);
-}
-  
-	// fetch active session an semster
-	public function SemesterSession (){
+		// check double entries for class
+	public function DoubleEntriesClass($data){
+		$condition = "ClassNum = " . "'" . $data['ClassNum'] . "' AND " . "ClassSection =" . "'" . $data['ClassSection'] . "' AND " . "ClassName =" . "'" . $data['ClassName'] . "'";
 		$this->db->select('*');
-		$this->db->from('session_semester');
-		$this->db->where('status', 'active');
+		 $this->db->from('TblClass');
+		 $this->db->where($condition);
+		 $this->db->limit(1);
+		 $query = $this->db->get();
+		 
+		 if ($query->num_rows() > 0) {
+		 return true;
+		 } else {
+		 return false;
+		 }
+
+	 }
+	public function CreateClass($data){
+		return $this->db->insert('TblClass', $data);
+	}
+// fetch class
+	public function ViewClass(){
+		 $this->db->select('*');
+		 $this->db->from('TblClass');
+		 $this->db->order_by("ClassName, ClassNum ASC");
+		 $query = $this->db->get();
+		 return $query->result();
+	}
+
+	// fetch subject
+	public function ViewSubjects(){
+		 $this->db->select('*');
+		 $this->db->from('TblSubject');
+		 $query = $this->db->get();
+		 return $query->result();
+	}
+	
+	// check double entries for Subject
+	public function DoubleEntriesSubject($data){
+		$condition = "SubjectName=" . "'" . $data['SubjectName'] . "' AND " . "SubjectCode =" . "'" . $data['SubjectCode'] . "'";
+		$this->db->select('*');
+		 $this->db->from('TblSubject');
+		 $this->db->where($condition);
+		 $this->db->limit(1);
+		 $query = $this->db->get();
+		 
+		 if ($query->num_rows() > 0) {
+		 return true;
+		 } else {
+		 return false;
+		 }
+
+	 }
+	public function CreateSubject($data){
+		return $this->db->insert('TblSubject', $data);
+	}
+
+	public function DeleteCreatedClass($data){
+		$this->db->where('class_id', $data['class_id']);
+		$this->db->delete('TblClass');
+	}
+	 // Double check subject combination
+	public function Verify($data){
+		$condition = "SubjectName=" . "'" . $data['SubjectName'] . "' AND " . "ClassName =" . "'" . $data['ClassName'] . "'";
+		$this->db->select('*');
+		 $this->db->from('SubjectCombi');
+		 $this->db->where($condition);
+		 $this->db->limit(1);
+		 $query = $this->db->get();
+		 
+		 if ($query->num_rows() > 0) {
+		 return true;
+		 } else {
+		 return false;
+		 }
+	}
+	// Add Subject Combination
+	public function AddSubjectCombination($data){
+		return $this->db->insert('SubjectCombi', $data);
+	}
+	
+	public function SubjectCombo($data){
+
+	     $this->db->select('*');
+		 $this->db->from('SubjectCombi');
+		 $this->db->where('ClassName', $data['ClassName']);
+		 $query = $this->db->get();
+		 return $query->result();
+	}
+
+	// Add Students
+	public function AddStudents($data){
+		return $this->db->insert('Students', $data);
+
+	}
+	// Verify Admin Number
+	public function VerifyAdminNum($AdminNum){
+		$this->db->select('*');
+		 $this->db->from('Students');
+		 $this->db->where('AdminNum', $AdminNum);
+		 $this->db->limit(1);
+		 $query = $this->db->get();
+		 
+		 if ($query->num_rows() > 0) {
+		 return true;
+		 } else {
+		 return false;
+		 }
+	}
+	 // Double check registered subject
+	 public function Doublecheck($data1){
+		$condition = "AdminNum=" . "'" . $data1['AdminNum'] . "' AND " . "SubjectName =" . "'" . $data1['SubjectName'] . "'";
+		$this->db->select('SubjectName');
+		 $this->db->from('RegSub');
+		 $this->db->where($condition);
+		 $this->db->limit(1);
+		 $query = $this->db->get();
+		 
+		 if ($query->num_rows() > 0) {
+		 return true;
+		 } else {
+		 return false;
+		 }
+	}
+
+	// Register Student's Subjects
+	public function RegisterSubjects($data1){
+		return $this->db->insert('RegSub', $data1);
+	}
+
+	// View student based on class list
+	public function ViewclassList($data) {
+		$condition = "Class=" . "'" . $data['Class'] . "' AND " . "Status =" . "'" . 'active' . "'";
+		$this->db->select('*');
+		$this->db->from('Students');
+		$this->db->where($condition);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	// Update class 
+	public function EditSingleClass($data) {
+		$this->db->where('class_id', $data['class_id']);
+		$this->db->update('TblClass', $data);
+	}
+
+	// View Subject Combination
+	public function ShowSubjectCombination($data) {
+		$this->db->select('*');
+		$this->db->from('SubjectCombi');
+		$this->db->where('ClassName', $data['ClassName']);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	// Delete Specific Subject combination 
+	public function DeleteSpecificSubCombination ($data){
+		$this->db->where('CombId', $data['CombId']);
+      	$this->db->delete('SubjectCombi');
+	}
+
+	// Reset the whole term and session 
+	public function ResetOlldTerm(){
+		$data = array(
+			'Status' => 'Not Active',
+			'Publish' => 'Not Ready'
+			);
+		$this->db->set($data);
+		$this->db->update('Session');
+
+	}
+
+	// Term and Session Set
+	public function SessionSet($data){
+		return $this->db->insert('Session', $data);
+	}
+
+	// verify term double entries for term and sesion 
+	public function VerifySession($data){
+		$condition = "Term=" . "'" . $data['Term'] . "' AND " . "Session =" . "'" . $data['Session'] . "'";
+		$this->db->select('*');
+		 $this->db->from('Session');
+		 $this->db->where($condition);
+		 $this->db->limit(1);
+		 $query = $this->db->get();
+		 
+		 if ($query->num_rows() > 0) {
+		 return true;
+		 } else {
+		 return false;
+		 }
+	}
+
+	// View Session and Semester
+	public function ViewSessionAndTerm(){
+		$this->db->select('*');
+		$this->db->from('Session');
+		$this->db->where('Status', 'Active');
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function SetActiveSesion($data){
+		$this->db->where('id', $data['id']);
+		$this->db->update('Session', $data);
+	}
+
+	public function DeleteSpecificSession($data){
+		$this->db->where('id', $data['id']);
+      	$this->db->delete('Session');
+	}
+
+	public function SessionTerm (){
+		$this->db->select('*');
+		$this->db->from('Session');
+		$this->db->where('Status', 'Active');
 		$query = $this->db->get();
 		if ($query != "") 
 		{
@@ -259,83 +270,220 @@ class Home_model extends CI_Model {
 		else {
 		  return false;
 		}
-		}
+	  }
 
-		public function ViewTests($data) {
-			$condition = "college = " . "'" . $data['college'] . "' AND " . "department =" . "'" . $data['department'] . "' AND " . "level =" . "'" . $data['level'] . "' AND " . "semester =" . "'" . $data['semester'] . "'";      
-		 $this->db->select('*');
-		 $this->db->from('tbl_examinations');
+	public function FetchRegSubjects($data){
+
+		$this->db->select('*');
+		$this->db->from('RegSub');
+		$this->db->where('AdminNum', $data['AdminNum']);
+		$query = $this->db->get();
+		if ($query != "") 
+		{
+		return $query->result();
+		}
+		else {
+		  return false;
+		}
+	}
+
+
+	// Double check added result data
+	public function DoublecheckAddResult($data1){
+		$condition = "AdminNum=" . "'" . $data1['AdminNum'] . "' AND " . "SubjectName =" . "'" . $data1['SubjectName'] . "'";
+		$this->db->select('*');
+		 $this->db->from('TblResult');
 		 $this->db->where($condition);
+		 $this->db->limit(1);
 		 $query = $this->db->get();
+		 
 		 if ($query->num_rows() > 0) {
-		 return $query->result();
+		 return true;
 		 } else {
 		 return false;
-			}
-	}	
-
-	public function CheckScore($data){
-		$condition = "matno = " . "'" . $data['matno'] . "' AND " . "exam_id =" . "'" . $data['exam_id'] . "'" ;      
-		$this->db->select('*');
-		$this->db->from('test_scores');
-		$this->db->where($condition);
-		$query = $this->db->get();
-		if ($query->num_rows() > 0) {
-		return $query->result();
-		} else {
-		return false;
-		 }
-  }
-  
-
-	public function FetchExamDetails($data){
-		$condition = "exam_id = " . "'" . $data['exam_id'] . "'" ;      
-		$this->db->select('*');
-		$this->db->from('tbl_examinations');
-		$this->db->where($condition);
-		$query = $this->db->get();
-		if ($query->num_rows() > 0) {
-		return $query->result();
-		} else {
-		return false;
 		 }
 	}
 
-	public function FetchQuestions($data){
-		$condition = "exam_id = " . "'" . $data['exam_id'] . "'" ;      
+	// Add Result
+	public function AddResult($data1){
+		return $this->db->insert('TblResult', $data1);
+	}
+
+	// Doublecheck Avarege
+	public function  ScoresDoublecheck($data){
+		$condition = "AdminNum = " . "'" . $data['AdminNum'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Session =" . "'" . $data['Session'] . "'";
 		$this->db->select('*');
-		$this->db->from('registered_course');
-		$this->db->where($condition);
-		$this->db->order_by('rand()');
-		$this->db->limit(40);
-		$query = $this->db->get();
-		if ($query->num_rows() > 0) {
-		return $query->result();
-		} else {
-		return false;
+		 $this->db->from('TblPosition');
+		 $this->db->where($condition);
+		 $this->db->limit(1);
+		 $query = $this->db->get();
+		 
+		 if ($query->num_rows() > 0) {
+		 return true;
+		 } else {
+		 return false;
 		 }
 	}
 	
-	public function StoreTestData ($data){
-		return $this->db->insert('test_scores', $data);
+	// Add Result
+	public function AddAverage($data){
+		return $this->db->insert('TblPosition', $data);
+	}
 
-  }
-  
-  public function Doublecheck($data){
-    $condition = "code = " . "'" . $data['code'] . "' AND " . "matno =" . "'" . $data['matno'] . "' AND " . "session =" . "'" . $data['session'] . "' AND " . "semester =" . "'" . $data['semester'] . "'";      
-    $this->db->select('*');
-    $this->db->from('registered_course');
+	//  Avarege
+	public function  FindTotal($data){
+		$condition = "AdminNum = " . "'" . $data['AdminNum'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Session =" . "'" . $data['Session'] . "'";
+		$this->db->select_sum('Total');
+		$this->db->from('TblResult');
+		$this->db->where($condition);
+		$query = $this->db->get();
+		return $query->result();	 
+	}
+
+	// D
+	public function  NumberRows($data){
+		$condition = "AdminNum = " . "'" . $data['AdminNum'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Session =" . "'" . $data['Session'] . "'";
+		$this->db->select('*');
+		$this->db->from('TblResult');
+		$this->db->where($condition);
+		$query = $this->db->get();
+		return $query->num_rows();	 
+	}
+
+	public function FetchAddedResult($data){
+		
+		$condition = "AdminNum = " . "'" . $data['AdminNum'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Session =" . "'" . $data['Session'] . "'";
+		$this->db->select('*');
+		$this->db->from('TblResult');
+		$this->db->where($condition);
+		$query = $this->db->get();
+		return $query->result();
+   }
+
+   public function EditResult($data1){
+      $condition = "AdminNum = " . "'" . $data1['AdminNum'] . "' AND " . "Term =" . "'" . $data1['Term'] . "' AND " . "Session =" . "'" . $data1['Session'] . "' AND " . "SubjectName =" . "'" . $data1['SubjectName'] . "'";      
+		$this->db->where($condition);
+		$this->db->update('TblResult', $data1);
+   }
+
+   public function EditAvareage($data){
+		$condition = "AdminNum = " . "'" . $data['AdminNum'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Session =" . "'" . $data['Session'] . "'";
+		$this->db->where($condition);
+		$this->db->update('TblPosition', $data);
+   }
+
+   public function DeleteResults($data){
+
+	$condition = "AdminNum = " . "'" . $data['AdminNum'] . "' AND " . "Session =" . "'" . $data['Session'] . "' AND " . "Term =" . "'" . $data['Term'] . "'";      
     $this->db->where($condition);
-    $query = $this->db->get();
-    if ($query->num_rows() > 0) {
-    return true;
-    } else {
-    return false;
-      }
-  }
+    $this->db->delete('TblResult');
+   }
 
-  public function RegisterCourses($data){
-    return $this->db->insert('registered_course', $data);
-  }
+   public function DeleteAvarage($data){
+
+	$condition = "AdminNum = " . "'" . $data['AdminNum'] . "' AND " . "Session =" . "'" . $data['Session'] . "' AND " . "Term =" . "'" . $data['Term'] . "'";      
+    $this->db->where($condition);
+    $this->db->delete('TblPosition');
+   }
+
+   public function AllTermSession(){
+	$this->db->select('*');
+	$this->db->from('Session');
+	$this->db->order_by("id desc");
+	$query = $this->db->get();
+	return $query->result();
+   }
+
+   public function ClassMasterResult($data){
+	$condition = "Session = " . "'" . $data['Session'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Class =" . "'" . $data['Class'] . "'";
+	$this->db->select('*');
+	$this->db->from('TblPosition');
+	$this->db->where($condition);
+	$this->db->order_by("TotalScore DESC");
+	$query = $this->db->get();
+	return $query->result();
+   }
+
+   public function SingleStudentResult($data){
+    $condition = "Session = " . "'" . $data['Session'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Class =" . "'" . $data['Class'] . "' AND " . "AdminNum =" . "'" . $data['AdminNum'] . "'";      
+	$this->db->select('*');
+	$this->db->from('TblResult');
+	$this->db->where($condition);
+	$query = $this->db->get();
+	return $query->result();
+   }
+
+   public function FetchStdDetails($data){
+    $condition = "Session = " . "'" . $data['Session'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Class =" . "'" . $data['Class'] . "' AND " . "AdminNum =" . "'" . $data['AdminNum'] . "'";      
+	$this->db->select('*');
+	$this->db->from('TblPosition');
+	$this->db->where($condition);
+	$query = $this->db->get();
+	return $query->result();
+   }
+// Total Student in a class
+   public function TotalClassStudent ($data) {
+	$condition = "Session = " . "'" . $data['Session'] . "' AND " . "Term =" . "'" . $data['Term'] . "' AND " . "Class =" . "'" . $data['Class'] . "'";
+	$this->db->select('*');
+	$this->db->from('TblPosition');
+	$this->db->where($condition);
+	$id = $this->db->get()->num_rows();
+    return $id;
+}
+// fetch single student details
+public function FetchSingleStudent($data){
+	$this->db->select('*');
+	$this->db->from('Students');
+	$this->db->where('AdminNum', $data['AdminNum']);
+	$query = $this->db->get();
+	return $query->result();
+
+}
+
+// Determin position 
+public function StudentPosition($AdminNum, $Class, $Session, $Term){
+	//$this->db->query("SET @rownum := 0");	
+	$this->db->query("SELECT rank FROM ( SELECT @rownum := @rownum + 1 AS rank, TotalScore, Class, Term, `TblPosition`.`Session`, AdminNum FROM TblPosition WHERE Class = '".$Class."'  AND Term = '".$Term."'  AND `TblPosition`.`Session` = '".$Session."'  ORDER BY TotalScore DESC ) as result WHERE AdminNum = '".$AdminNum."' ")->result();
+
+	//$query = $this->db->get('rank');
+
+}
+
+// Delete Student
+public function DeleteStudent($data) {
+	$this->db->where('AdminNum', $data['AdminNum']);
+	$this->db->delete('Students');
+}
+
+//  once student records are deleted, wipe our registered subjects
+public function DeleteStudentSubject($data){
+	$this->db->where('AdminNum', $data['AdminNum']);
+	$this->db->delete('RegSub');
+}
+
+public function MakeInactive($data){
+
+	$this->db->set('Status', $data['Status']);
+	$this->db->where('AdminNum', $data['AdminNum']);
+	$this->db->update('Students');
+}
+
+public function Females(){
+	$this->db->select('*');
+	$this->db->from('Students');
+	$this->db->where('Gender', 'Female');
+	$id = $this->db->get()->num_rows();
+    return $id;
+}
+
+public function Males(){
+	$this->db->select('*');
+	$this->db->from('Students');
+	$this->db->where('Gender', 'Male');
+	$id = $this->db->get()->num_rows();
+    return $id;
+}
+
+
 }
 ?>

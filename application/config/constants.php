@@ -83,7 +83,3 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
-
-//Paystack API Configuration below
-define("PAYSTACK_PUBLIC_KEY", "pk_test_baa5896814dea2491f3963c3a561571426fd4559");
-define("PAYSTACK_SECRET_KEY", "sk_test_ddb6dd5ac047f09cf14f228b1ba88f6fbb8f262e");
